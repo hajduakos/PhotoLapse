@@ -24,3 +24,11 @@ Create single frame timelapses from photos taken in a long interval of time.
 
 ## Notes
 The source images must be aligned perfectly for a nice result. Take the photos from a tripod, or align them with a software.
+
+## Samples
+<p align="center">
+<a href="https://www.flickr.com/photos/sonic182/15690712193"><img height="110" src="https://farm9.staticflickr.com/8586/15690712193_ea954f8999_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/15798165450"><img height="110" src="https://farm8.staticflickr.com/7528/15798165450_dd29beb2ac_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/15689060644"><img height="110" src="https://farm8.staticflickr.com/7559/15689060644_d8ce20f8fd_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/16124095160"><img height="110" src="https://farm8.staticflickr.com/7565/16124095160_8ba10e6150_m_d.jpg"/></a>
+</p>
