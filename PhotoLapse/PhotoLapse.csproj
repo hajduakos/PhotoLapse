@@ -72,6 +72,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\OrderBy.cs" />
     <Compile Include="Model\PhotoLapseType.cs" />
     <Compile Include="Model\PhotoLapseManager.cs" />
     <Compile Include="Model\Photo.cs" />

@@ -37,6 +37,11 @@ namespace PhotoLapse
         public BitmapImage Thumb { get; private set; }
 
         /// <summary>
+        /// Date modified
+        /// </summary>
+        public DateTime DateModified { get; private set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="path">Path of the photo</param>
@@ -44,6 +49,7 @@ namespace PhotoLapse
         {
             this.Path = path; RaisePropertyChanged("Path"); RaisePropertyChanged("Name");
             this.IsSelected = true; RaisePropertyChanged("IsSelected");
+            this.DateModified = System.IO.File.GetLastWriteTime(Path); RaisePropertyChanged("DateModified");
             Thumb = new BitmapImage();
             Thumb.BeginInit();
             Thumb.CacheOption = BitmapCacheOption.OnLoad;

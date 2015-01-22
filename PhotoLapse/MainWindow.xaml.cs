@@ -62,6 +62,16 @@ namespace PhotoLapse
         {
             PLManager.SelectNone();
         }
+
+        private void lblordName_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            PLManager.OrderImages(OrderBy.Name);
+        }
+
+        private void lblordDate_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            PLManager.OrderImages(OrderBy.Date);
+        }
         
     }
 }

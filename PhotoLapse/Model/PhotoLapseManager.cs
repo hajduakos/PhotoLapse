@@ -1,5 +1,6 @@
 ﻿using PhotoLapseTools.Creators;
 using PhotoLapseTools.Utils;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,6 +17,8 @@ namespace PhotoLapse
     {
         private System.Drawing.Bitmap bmpResult;       // Rendering result (RAW)
         private BackgroundWorker bwRenderer, bwLoader; // Backgroundworkers for rendering and loading
+        private OrderBy order;                         // Current order of images
+        private bool isAscending;                      // Asc. or desc.
 
         /// <summary>
         /// List of loaded photos
@@ -42,6 +45,15 @@ namespace PhotoLapse
         /// </summary>
         public string Message { get; private set; }
 
+        public TimeSpan TimeSpan
+        {
+            get
+            {
+                if (Photos.Count < 2) return TimeSpan.FromSeconds(0);
+                else return Photos.Max(p => p.DateModified) - Photos.Min(p => p.DateModified);
+            }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -54,6 +66,8 @@ namespace PhotoLapse
             ProgressPercentage = 0; RaisePropertyChanged("ProgressPercentage");
             Message = ""; RaisePropertyChanged("Message");
             bmpResult = null;
+            order = OrderBy.Name;
+            isAscending = true;
 
             // Initialize backgroundworkers
             bwRenderer = new BackgroundWorker();
@@ -123,17 +137,51 @@ namespace PhotoLapse
             foreach (Photo p in Photos) p.IsSelected = false;
         }
 
+        /// <summary>
+        /// Order images
+        /// </summary>
+        /// <param name="orderBy">Property that is ordered</param>
+        public void OrderImages(OrderBy orderBy)
+        {
+            if (this.order == orderBy) isAscending = !isAscending;
+            else
+            {
+                this.order = orderBy;
+                isAscending = true;
+            }
+
+            OrderImages();
+        }
+
+        // Helper function for ordering images
+        private void OrderImages()
+        {
+            List<Photo> temp;
+
+            switch (order)
+            {
+                case OrderBy.Name:
+                    temp = Photos.OrderBy(p => p.Name).ToList();
+                    break;
+                default:
+                    temp = Photos.OrderBy(p => p.Name).ToList();
+                    break;
+            }
+            if (!isAscending) temp.Reverse();
+            Photos = new ObservableCollection<Photo>(temp);
+            RaisePropertyChanged("Photos");
+        }
+
         // Loading process
         private void bwLoader_DoWork(object sender, DoWorkEventArgs e)
         {
             // Sort and load images
             bwLoader.ReportProgress(0);
-            List<string> sorted = new List<string>(e.Argument as string[]);
-            sorted.Sort();
-            for (int i = 0; i < sorted.Count; i++)
+            string[] files = e.Argument as string[];
+            for (int i = 0; i < files.Length; i++)
             {
                 // Pass the loaded photo as user state
-                bwLoader.ReportProgress((int)((i + 1) / (float)(sorted.Count) * 100), new Photo(sorted[i]));
+                bwLoader.ReportProgress((int)((i + 1) / (float)(files.Length) * 100), new Photo(files[i]));
             }
             bwLoader.ReportProgress(100);
         }
@@ -146,13 +194,16 @@ namespace PhotoLapse
             Message = "Loading " + e.ProgressPercentage + "%"; RaisePropertyChanged("Message");
             // Retrieve photo from user state and add to list
             if (e.UserState != null) Photos.Add(e.UserState as Photo);
+            RaisePropertyChanged("TimeSpan");
         }
 
         // Loading complete
         private void bwLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            OrderImages();
             IsIdle = true; RaisePropertyChanged("IsIdle");
             Message = "Loading complete!"; RaisePropertyChanged("Message");
+            RaisePropertyChanged("TimeSpan");
         }
 
         // Rendering process

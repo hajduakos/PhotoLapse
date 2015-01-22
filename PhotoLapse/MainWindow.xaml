@@ -40,12 +40,12 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         
-        <DockPanel LastChildFill="True" Grid.RowSpan="2">
+        <DockPanel LastChildFill="True" Grid.RowSpan="2" Margin="0 0 10 0">
             <Label Content="1. Load &amp; Select Images" DockPanel.Dock="Top" Style="{StaticResource styleBigLabel}"/>
             <DockPanel DockPanel.Dock="Top">
                 <WrapPanel DockPanel.Dock="Right" VerticalAlignment="Center">
                     <Image Source="/images/magnifier_zoom_out.png" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-                    <Slider x:Name="slThumbsize" Minimum="20" Maximum="200" Value="50" Width="80" />
+                    <Slider x:Name="slThumbsize" Minimum="20" Maximum="200" Value="50" Width="150" />
                     <Image Source="/images/magnifier_zoom_in.png" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                 </WrapPanel>
                 <WrapPanel>
@@ -55,23 +55,46 @@
                             <TextBlock Text="Load images"/>
                         </WrapPanel>
                     </Button>
-                    <Label Content="Select:" VerticalAlignment="Bottom" Margin="2 4 2 5" Padding="0"/>
-                    <Label x:Name="lblSelectAll" Content="All" VerticalAlignment="Bottom"
-                       Style="{StaticResource styleLinkLabel}" MouseUp="lblSelectAll_MouseUp"/>
-                    <Label x:Name="lblSelectNone" Content="None" VerticalAlignment="Bottom"
-                       Style="{StaticResource styleLinkLabel}" MouseUp="lblSelectNone_MouseUp"/>
                 </WrapPanel>
             </DockPanel>
+            <WrapPanel DockPanel.Dock="Top">
+                <Label Content="Select:" VerticalAlignment="Bottom" Margin="2 4 2 5" Padding="0"/>
+                <Label x:Name="lblSelectAll" Content="All" VerticalAlignment="Bottom"
+                       Style="{StaticResource styleLinkLabel}" MouseUp="lblSelectAll_MouseUp"/>
+                <Label x:Name="lblSelectNone" Content="None" VerticalAlignment="Bottom"
+                       Style="{StaticResource styleLinkLabel}" MouseUp="lblSelectNone_MouseUp"/>
+                <Label Content="Order by:" VerticalAlignment="Bottom" Margin="10 4 2 5" Padding="0"/>
+                <Label x:Name="lblordName" Content="Name" VerticalAlignment="Bottom"
+                       Style="{StaticResource styleLinkLabel}" MouseUp="lblordName_MouseUp"/>
+                <Label x:Name="lblordDate" Content="Date" VerticalAlignment="Bottom"
+                       Style="{StaticResource styleLinkLabel}" MouseUp="lblordDate_MouseUp"/>
+            </WrapPanel>
+            <WrapPanel DockPanel.Dock="Bottom">
+                <TextBlock Text="{Binding Photos.Count}" Margin="5 2 0 2"/>
+                <TextBlock Text=" photos taken in an interval of " Margin="0 2 0 2"/>
+                <TextBlock Text="{Binding TimeSpan}" Margin="0 2 0 2"/>
+            </WrapPanel>
             <ListView x:Name="lstImages" VerticalAlignment="Stretch" Margin="2"
                       ItemsSource="{Binding Photos}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <WrapPanel>
-                            <CheckBox IsChecked="{Binding IsSelected}" Margin="3" VerticalAlignment="Center"/>
-                            <Image Height="{Binding ElementName=slThumbsize,Path=Value}" Source="{Binding Thumb}" RenderOptions.BitmapScalingMode="NearestNeighbor" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Name}" Margin="3" VerticalAlignment="Center"/>
-                        </WrapPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" Margin="3" VerticalAlignment="Center"/>
+                            <Image Grid.Column="1"  Height="{Binding ElementName=slThumbsize,Path=Value}" Source="{Binding Thumb}" RenderOptions.BitmapScalingMode="NearestNeighbor" VerticalAlignment="Center"/>
+                            <WrapPanel Grid.Column="2" Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" Margin="3 0 0 0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding DateModified,StringFormat={}{0:yyyy.MM.dd. HH:mm:ss}}" Margin="3 0 0 0" VerticalAlignment="Center"/>
+                            </WrapPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemsPanel>
@@ -116,7 +139,7 @@
                      Value="{Binding ProgressPercentage}"/>
         <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Message}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <GridSplitter Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Stretch"
-                      Background="Transparent" ShowsPreview="true" Width="5"/>
+        <GridSplitter Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                      Background="Transparent" ShowsPreview="true" Width="10"/>
     </Grid>
 </Window>
