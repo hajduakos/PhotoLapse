@@ -45,12 +45,30 @@ namespace PhotoLapse
         /// </summary>
         public string Message { get; private set; }
 
+        /// <summary>
+        /// Length of the interval in which the photos were taken
+        /// </summary>
         public TimeSpan TimeSpan
         {
             get
             {
                 if (Photos.Count < 2) return TimeSpan.FromSeconds(0);
                 else return Photos.Max(p => p.DateModified) - Photos.Min(p => p.DateModified);
+            }
+        }
+
+        /// <summary>
+        /// Get the default filename for exporting
+        /// </summary>
+        public string DefaultFileName
+        {
+            get
+            {
+                string fileName = "";
+                Photo first = Photos.Where(p => p.IsSelected).FirstOrDefault();
+                if (first != null) fileName += first.Name + "_";
+                fileName += "photolapse_" + Photos.Count(p => p.IsSelected) + "_images.jpg";
+                return fileName;
             }
         }
 

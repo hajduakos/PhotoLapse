@@ -73,6 +73,7 @@
                 <TextBlock Text="{Binding Photos.Count}" Margin="5 2 0 2"/>
                 <TextBlock Text=" photos taken in an interval of " Margin="0 2 0 2"/>
                 <TextBlock Text="{Binding TimeSpan}" Margin="0 2 0 2"/>
+                <TextBlock Text="." Margin="0 2 0 2"/>
             </WrapPanel>
             <ListView x:Name="lstImages" VerticalAlignment="Stretch" Margin="2"
                       ItemsSource="{Binding Photos}"

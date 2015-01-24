@@ -44,6 +44,8 @@ namespace PhotoLapse
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = PLManager.DefaultFileName;
+            sfd.Filter = "JPG image (*.jpg; *.jpeg)|*.jpg; *.jpeg";
             if (sfd.ShowDialog() == true)
             {
                 long quality = long.Parse(txtQuality.Text);
