@@ -74,6 +74,11 @@ namespace PhotoLapse
         {
             PLManager.OrderImages(OrderBy.Date);
         }
+
+        private void Window_Drop(object sender, DragEventArgs e)
+        {
+            PLManager.LoadPhotos((string[])e.Data.GetData(DataFormats.FileDrop, true));
+        }
         
     }
 }

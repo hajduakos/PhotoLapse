@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PhotoLapse" Height="400" Width="950" WindowState="Maximized"
-        Icon="/images/icon.png">
+        Icon="/images/icon.png"
+        Drop="Window_Drop" AllowDrop="True">
     <Window.Resources>
         <Style x:Key="styleBigLabel" TargetType="Label">
             <Setter Property="FontSize" Value="20"/>
