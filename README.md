@@ -27,8 +27,10 @@ The source images must be aligned perfectly for a nice result. Take the photos f
 
 ## Samples
 <p align="center">
-<a href="https://www.flickr.com/photos/sonic182/15690712193"><img height="110" src="https://farm9.staticflickr.com/8586/15690712193_ea954f8999_m_d.jpg"/></a>
-<a href="https://www.flickr.com/photos/sonic182/15798165450"><img height="110" src="https://farm8.staticflickr.com/7528/15798165450_dd29beb2ac_m_d.jpg"/></a>
-<a href="https://www.flickr.com/photos/sonic182/15689060644"><img height="110" src="https://farm8.staticflickr.com/7559/15689060644_d8ce20f8fd_m_d.jpg"/></a>
-<a href="https://www.flickr.com/photos/sonic182/16124095160"><img height="110" src="https://farm8.staticflickr.com/7565/16124095160_8ba10e6150_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/15690712193"><img height="90" src="https://farm9.staticflickr.com/8586/15690712193_ea954f8999_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/15798165450"><img height="90" src="https://farm8.staticflickr.com/7528/15798165450_dd29beb2ac_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/15689060644"><img height="90" src="https://farm8.staticflickr.com/7559/15689060644_d8ce20f8fd_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/16124095160"><img height="90" src="https://farm8.staticflickr.com/7565/16124095160_8ba10e6150_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/16211668457"><img height="90" src="https://farm9.staticflickr.com/8627/16211668457_200debd27a_m_d.jpg"/></a>
+<a href="https://www.flickr.com/photos/sonic182/16210184030"><img height="90" src="https://farm8.staticflickr.com/7446/16210184030_3d5628d5fa_m_d.jpg"/></a>
 </p>
