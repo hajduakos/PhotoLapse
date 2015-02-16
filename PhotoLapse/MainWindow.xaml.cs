@@ -79,6 +79,11 @@ namespace PhotoLapse
         {
             PLManager.LoadPhotos((string[])e.Data.GetData(DataFormats.FileDrop, true));
         }
+
+        private void Label_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Created by Akos Hajdu 2014-2015\r\n\r\nIcons: http://www.famfamfam.com/lab/icons/silk/", "About");
+        }
         
     }
 }

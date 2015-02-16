@@ -41,6 +41,7 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         
+        
         <DockPanel LastChildFill="True" Grid.RowSpan="2" Margin="0 0 10 0">
             <Label Content="1. Load &amp; Select Images" DockPanel.Dock="Top" Style="{StaticResource styleBigLabel}"/>
             <DockPanel DockPanel.Dock="Top">
@@ -143,5 +144,9 @@
 
         <GridSplitter Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Stretch"
                       Background="Transparent" ShowsPreview="true" Width="10"/>
+
+
+        <Label Grid.Column="1" Content="About" HorizontalAlignment="Right" VerticalAlignment="Top"
+               Style="{StaticResource styleLinkLabel}" MouseUp="Label_MouseUp" />
     </Grid>
 </Window>
