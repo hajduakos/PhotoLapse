@@ -1,3 +1,5 @@
+https://travis-ci.org/hajduakos/PhotoLapse.svg?branch=master
+
 # PhotoLapse
 
 Timelapse videos are a popular way to display the passing of time. However, such timelapses can also be composed to a into a single photo. Using PhotoLapse, you can create single frame timelapses (also known as HDTR images) from photos taken in a long interval of time.
