@@ -89,6 +89,8 @@ namespace PhotoLapseTools.Creators
             }
 
             if (reporter != null) reporter.Report(count, count);
+
+            result.UnlockBits(resultData);
             
             return result;
         }

@@ -76,6 +76,8 @@ namespace PhotoLapseTools.Creators
                     if (reporter != null) reporter.Report(img + 1, count);
                 }
             }
+
+            result.UnlockBits(resultData);
                         
             return result;
         }
