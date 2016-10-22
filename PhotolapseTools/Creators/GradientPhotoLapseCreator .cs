@@ -29,6 +29,7 @@ namespace PhotoLapseTools.Creators
             // Check if at least 2 images are provided
             if (images.Count == 0) throw new Exception("No images to be processed.");
             if (images.Count < 2) throw new Exception("At least 2 images are required for this type of photolapse.");
+            if (images.Count != weights.Count) throw new Exception("Number of images and weights do not match.");
 
             // Get dimensions and pixelformat for the first image
             using (Bitmap first = new Bitmap(images[0]))

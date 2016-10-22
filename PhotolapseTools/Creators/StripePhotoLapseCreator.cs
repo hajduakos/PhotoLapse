@@ -28,6 +28,7 @@ namespace PhotoLapseTools.Creators
 
             // Check if at least 1 image is provided
             if (images.Count == 0) throw new Exception("No images to be processed.");
+            if (images.Count != weights.Count) throw new Exception("Number of images and weights do not match.");
 
             // Get dimensions and pixel format for the first image
             using (Bitmap first = new Bitmap(images[0]))
