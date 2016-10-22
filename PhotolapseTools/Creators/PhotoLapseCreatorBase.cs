@@ -1,13 +1,14 @@
-﻿
-using PhotoLapseTools.Reporters;
+﻿using PhotoLapseTools.Reporters;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+
 namespace PhotoLapseTools.Creators
 {
     /// <summary>
-    /// PhotoLapse creator interface
+    /// Base class for photolapse creators
     /// </summary>
-    public interface IPhotoLapseCreator
+    public abstract class PhotoLapseCreatorBase : IPhotoLapseCreator
     {
         /// <summary>
         /// Create photolapse
@@ -15,7 +16,11 @@ namespace PhotoLapseTools.Creators
         /// <param name="images">List of images</param>
         /// <param name="reporter">Reporter</param>
         /// <returns>Photolapse</returns>
-        Bitmap Process(List<string> images, IReporter reporter = null);
+        public Bitmap Process(List<string> images, IReporter reporter = null)
+        {
+            List<float> weights = images.Select(i => 1f).ToList();
+            return Process(images, weights, reporter);
+        }
 
         /// <summary>
         /// Create photolapse with weights
@@ -24,6 +29,7 @@ namespace PhotoLapseTools.Creators
         /// <param name="weights">List of weights for each image</param>
         /// <param name="reporter">Reporter</param>
         /// <returns>Photolapse</returns>
-        Bitmap Process(List<string> images, List<float> weights, IReporter reporter = null);
+        public abstract Bitmap Process(List<string> images, List<float> weights, IReporter reporter = null);
+       
     }
 }

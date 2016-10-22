@@ -8,15 +8,16 @@ namespace PhotoLapseTools.Creators
     /// <summary>
     /// Stripe PhotoLapse creator
     /// </summary>
-    public class StripePhotoLapseCreator : IPhotoLapseCreator
+    public sealed class StripePhotoLapseCreator : PhotoLapseCreatorBase
     {
         /// <summary>
-        /// Create photolapse
+        /// Create photolapse with weights
         /// </summary>
         /// <param name="images">List of images</param>
+        /// <param name="weights">List of weights for each image</param>
         /// <param name="reporter">Reporter</param>
         /// <returns>Photolapse</returns>
-        public Bitmap Process(List<string> images, Reporters.IReporter reporter = null)
+        public override Bitmap Process(List<string> images, List<float> weights, Reporters.IReporter reporter = null)
         {
             int w, h, x, y;
             PixelFormat pxFormat;
@@ -72,6 +73,7 @@ namespace PhotoLapseTools.Creators
                                 resultPtr[idx + 2] = actualPtr[idx + 2];
                             }
                         }
+                        actual.UnlockBits(actualData);
                     }
                     if (reporter != null) reporter.Report(img + 1, count);
                 }

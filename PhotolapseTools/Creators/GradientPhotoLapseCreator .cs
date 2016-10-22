@@ -8,15 +8,16 @@ namespace PhotoLapseTools.Creators
     /// <summary>
     /// Gradient PhotoLapse creator
     /// </summary>
-    public class GradientPhotoLapseCreator : IPhotoLapseCreator
+    public sealed class GradientPhotoLapseCreator : PhotoLapseCreatorBase
     {
         /// <summary>
-        /// Create photolapse
+        /// Create photolapse with weights
         /// </summary>
         /// <param name="images">List of images</param>
+        /// <param name="weights">List of weights for each image</param>
         /// <param name="reporter">Reporter</param>
         /// <returns>Photolapse</returns>
-        public Bitmap Process(List<string> images, Reporters.IReporter reporter = null)
+        public override Bitmap Process(List<string> images, List<float> weights, Reporters.IReporter reporter = null)
         {
             int w, h, x, y;
             PixelFormat pxFormat;
@@ -82,6 +83,9 @@ namespace PhotoLapseTools.Creators
                                 resultPtr[idx + 2] = (byte)(r0 * actualPtr[idx + 2] + r1 * nextPtr[idx + 2]);
                             }
                         }
+
+                        actual.UnlockBits(actualData);
+                        next.UnlockBits(nextData);
 
                     }
                     if (reporter != null) reporter.Report(img + 1, count);
