@@ -229,9 +229,11 @@ namespace PhotoLapse
         {
             // Filter only selected photos
             IPhotoLapseCreator creator = e.Argument as IPhotoLapseCreator;
-            bmpResult = creator.Process(
-                Photos.Where(p => p.IsSelected).Select(p => p.Path).ToList(),
-                new BgWorkerReporter(bwRenderer));
+            List<string> photos = Photos.Where(p => p.IsSelected).Select(p => p.Path).ToList();
+            List<float> weights = Photos.Where(p => p.IsSelected).Select(p => p.Weight).ToList();
+            if (creator is GradientPhotoLapseCreator) weights.RemoveAt(weights.Count - 1);
+
+            bmpResult = creator.Process(photos, weights, new BgWorkerReporter(bwRenderer));
         }
 
         // Rendering progress changed

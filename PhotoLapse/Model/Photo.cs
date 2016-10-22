@@ -41,6 +41,13 @@ namespace PhotoLapse
         /// </summary>
         public DateTime DateModified { get; private set; }
 
+        private float weight;
+        public float Weight
+        {
+            get { return weight; }
+            set { weight = Math.Max(value, 0); RaisePropertyChanged("Weight"); }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -57,6 +64,7 @@ namespace PhotoLapse
             Thumb.DecodePixelHeight = 200;
             Thumb.EndInit();
             Thumb.Freeze(); RaisePropertyChanged("Thumb");
+            this.weight = 1f; RaisePropertyChanged("Weight");
         }
 
         /// <summary>

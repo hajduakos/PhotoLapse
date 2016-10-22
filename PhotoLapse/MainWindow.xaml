@@ -29,6 +29,7 @@
             <Setter Property="BorderBrush" Value="Blue"/>
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
+        <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -70,6 +71,7 @@
                        Style="{StaticResource styleLinkLabel}" MouseUp="lblordName_MouseUp"/>
                 <Label x:Name="lblordDate" Content="Date" VerticalAlignment="Bottom"
                        Style="{StaticResource styleLinkLabel}" MouseUp="lblordDate_MouseUp"/>
+                <CheckBox Name="cbWeights" Content="Show weights" Margin="10 4 2 5"/>
             </WrapPanel>
             <WrapPanel DockPanel.Dock="Bottom">
                 <TextBlock Text="{Binding Photos.Count}" Margin="5 2 0 2"/>
@@ -96,6 +98,10 @@
                             <WrapPanel Grid.Column="2" Orientation="Vertical">
                                 <TextBlock Text="{Binding Name}" Margin="3 0 0 0" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding DateModified,StringFormat={}{0:yyyy.MM.dd. HH:mm:ss}}" Margin="3 0 0 0" VerticalAlignment="Center"/>
+                                <WrapPanel Orientation="Horizontal" Margin="3 0 0 0" Visibility="{Binding IsChecked,ElementName=cbWeights,Converter={StaticResource b2v}}">
+                                    <TextBlock Text="Weight: " VerticalAlignment="Center"/>
+                                    <TextBox Text="{Binding Weight,Mode=TwoWay}" Width="20"/>
+                                </WrapPanel>
                             </WrapPanel>
                         </Grid>
                     </DataTemplate>
