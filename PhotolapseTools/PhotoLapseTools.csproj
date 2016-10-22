@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Creators\IPhotoLapseCreator.cs" />
     <Compile Include="Creators\GradientPhotoLapseCreator .cs" />
-    <Compile Include="Creators\PhotoLapseCreatorBase.cs" />
     <Compile Include="Creators\StripePhotoLapseCreator.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
     <Compile Include="Reporters\IReporter.cs" />

@@ -9,8 +9,20 @@ namespace PhotoLapseTools.Creators
     /// <summary>
     /// Stripe PhotoLapse creator
     /// </summary>
-    public sealed class StripePhotoLapseCreator : PhotoLapseCreatorBase
+    public sealed class StripePhotoLapseCreator : IPhotoLapseCreator
     {
+        /// <summary>
+        /// Create photolapse
+        /// </summary>
+        /// <param name="images">List of images</param>
+        /// <param name="reporter">Reporter</param>
+        /// <returns>Photolapse</returns>
+        public Bitmap Process(List<string> images, Reporters.IReporter reporter = null)
+        {
+            List<float> weights = images.Select(i => 1f).ToList();
+            return Process(images, weights, reporter);
+        }
+
         /// <summary>
         /// Create photolapse with weights
         /// </summary>
@@ -18,7 +30,7 @@ namespace PhotoLapseTools.Creators
         /// <param name="weights">List of weights for each image</param>
         /// <param name="reporter">Reporter</param>
         /// <returns>Photolapse</returns>
-        public override Bitmap Process(List<string> images, List<float> weights, Reporters.IReporter reporter = null)
+        public Bitmap Process(List<string> images, List<float> weights, Reporters.IReporter reporter = null)
         {
             int w, h, x, y;
             PixelFormat pxFormat;

@@ -2,14 +2,27 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 
 namespace PhotoLapseTools.Creators
 {
     /// <summary>
     /// Gradient PhotoLapse creator
     /// </summary>
-    public sealed class GradientPhotoLapseCreator : PhotoLapseCreatorBase
+    public sealed class GradientPhotoLapseCreator : IPhotoLapseCreator
     {
+        /// <summary>
+        /// Create photolapse
+        /// </summary>
+        /// <param name="images">List of images</param>
+        /// <param name="reporter">Reporter</param>
+        /// <returns>Photolapse</returns>
+        public Bitmap Process(List<string> images, Reporters.IReporter reporter = null)
+        {
+            List<float> weights = images.Select(i => 1f).Skip(1).ToList();
+            return Process(images, weights, reporter);
+        }
+
         /// <summary>
         /// Create photolapse with weights
         /// </summary>
@@ -17,7 +30,7 @@ namespace PhotoLapseTools.Creators
         /// <param name="weights">List of weights for each image</param>
         /// <param name="reporter">Reporter</param>
         /// <returns>Photolapse</returns>
-        public override Bitmap Process(List<string> images, List<float> weights, Reporters.IReporter reporter = null)
+        public Bitmap Process(List<string> images, List<float> weights, Reporters.IReporter reporter = null)
         {
             int w, h, x, y;
             PixelFormat pxFormat;
@@ -29,7 +42,7 @@ namespace PhotoLapseTools.Creators
             // Check if at least 2 images are provided
             if (images.Count == 0) throw new Exception("No images to be processed.");
             if (images.Count < 2) throw new Exception("At least 2 images are required for this type of photolapse.");
-            if (images.Count != weights.Count) throw new Exception("Number of images and weights do not match.");
+            if (images.Count != weights.Count + 1) throw new Exception("Number of weights must be one less than the number of images.");
 
             // Get dimensions and pixelformat for the first image
             using (Bitmap first = new Bitmap(images[0]))
