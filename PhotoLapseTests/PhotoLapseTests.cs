@@ -17,31 +17,40 @@ namespace PhotoLapseTests
         [TestMethod]
         public void TestStripes()
         {
-            Test(new StripePhotoLapseCreator(), "../../images/stripe1.bmp");   
+            IPhotoLapseCreator stripe = new StripePhotoLapseCreator();
+            Test(stripe, new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe111111.bmp");
+            Test(stripe, new List<float>() { 1, 2, 1, 2, 1, 2 }, "stripe121212.bmp");
+            Test(stripe, new List<float>() { 0, 1, 0, 1, 0, 1 }, "stripe010101.bmp");
+            Test(stripe, new List<float>() { 1, 0, 1, 0, 1, 0 }, "stripe101010.bmp");
+            Test(stripe, new List<float>() { 1, 0, 0, 0, 0, 0 }, "stripe100000.bmp");
+            Test(stripe, new List<float>() { 0, 0, 0, 0, 0, 1 }, "stripe000001.bmp");
+            Test(stripe, new List<float>() { 0, 0, 1, 0, 0, 0 }, "stripe001000.bmp");
+            Test(stripe, new List<float>() { 1, 2, 3, 4, 5, 6 }, "stripe123456.bmp");
         }
 
         [TestMethod]
         public void TestGradient()
         {
-            Test(new GradientPhotoLapseCreator(), "../../images/gradient1.bmp");
+            IPhotoLapseCreator grad = new GradientPhotoLapseCreator();
+            Test(grad, new List<float>() { 1, 1, 1, 1, 1, 1 }, "gradient1.bmp");
         }
 
-        public void Test(IPhotoLapseCreator creator, string expected)
+        public void Test(IPhotoLapseCreator creator, List<float> weights, string expected)
         {
             List<string> fullPath = images.Select(i => imagesPath + i).ToList();
-            using (Bitmap resultBmp = creator.Process(fullPath))
-            using (Bitmap expectedBmp = new Bitmap(expected))
+            using (Bitmap resultBmp = creator.Process(fullPath, weights))
+            using (Bitmap expectedBmp = new Bitmap(imagesPath + expected))
             {
-                Assert.IsTrue(Compare(resultBmp, expectedBmp, 1));
+               Assert.IsTrue(Compare(resultBmp, expectedBmp, 1));
             }
         }
 
-        public void Generate(IPhotoLapseCreator creator, string output)
+        public void Generate(IPhotoLapseCreator creator, List<float> weights, string output)
         {
             List<string> fullPath = images.Select(i => imagesPath + i).ToList();
-            using (Bitmap result = creator.Process(fullPath))
+            using (Bitmap result = creator.Process(fullPath, weights))
             {
-                result.Save(output);
+                result.Save(imagesPath + output);
             }
         }
 
