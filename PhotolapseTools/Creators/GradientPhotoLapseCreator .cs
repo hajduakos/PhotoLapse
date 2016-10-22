@@ -43,6 +43,8 @@ namespace PhotoLapseTools.Creators
             if (images.Count == 0) throw new Exception("No images to be processed.");
             if (images.Count < 2) throw new Exception("At least 2 images are required for this type of photolapse.");
             if (images.Count != weights.Count + 1) throw new Exception("Number of weights must be one less than the number of images.");
+            float wSum = weights.Sum();
+            if (wSum < 0.00001f) throw new Exception("Sum of weights must not be zero.");
 
             // Get dimensions and pixelformat for the first image
             using (Bitmap first = new Bitmap(images[0]))
@@ -52,8 +54,18 @@ namespace PhotoLapseTools.Creators
             }
 
             // There are count of images - 1 vertical stripes
-            int stripeWidth = w / (count - 1);
 
+            // Calculate the starting point of each stripe (float)
+            float[] stripeStartF = new float[count - 1];
+            stripeStartF[0] = 0;
+            for (int i = 1; i < count - 1; ++i) stripeStartF[i] = stripeStartF[i - 1] + w * weights[i - 1] / wSum;
+
+            // Calculate the starting point of each stripe rounded
+            // The width of the image is added as an extra element
+            int[] stripeStart = new int[count];
+            for (int i = 0; i < count - 1; ++i) stripeStart[i] = (int)Math.Floor(stripeStartF[i]);
+            stripeStart[count - 1] = w;
+            
             // Create result
             Bitmap result = new Bitmap(w, h, pxFormat);
             BitmapData resultData = result.LockBits(new Rectangle(0, 0, result.Width, result.Height),
@@ -67,8 +79,8 @@ namespace PhotoLapseTools.Creators
                 // Loop through the images and create a fade between the actual and next image
                 for (int img = 0; img < count - 1; ++img)
                 {
-                    int start = img * stripeWidth;
-                    int end = (img == count - 2) ? w : start + stripeWidth;
+                    int start = stripeStart[img];
+                    int end = stripeStart[img + 1];
 
                     using (Bitmap actual = new Bitmap(images[img]))
                     using (Bitmap next = new Bitmap(images[img + 1]))

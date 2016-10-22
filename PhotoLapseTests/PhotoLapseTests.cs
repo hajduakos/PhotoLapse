@@ -33,6 +33,9 @@ namespace PhotoLapseTests
         {
             IPhotoLapseCreator grad = new GradientPhotoLapseCreator();
             Test(grad, new List<float>() { 1, 1, 1, 1, 1 }, "gradient11111.bmp");
+            Test(grad, new List<float>() { 1, 2, 1, 2, 1 }, "gradient12121.bmp");
+            Test(grad, new List<float>() { 1, 0, 0, 0, 0 }, "gradient10000.bmp");
+            Test(grad, new List<float>() { 1, 1, 1, 3, 1 }, "gradient11131.bmp");
         }
 
         public void Test(IPhotoLapseCreator creator, List<float> weights, string expected)
