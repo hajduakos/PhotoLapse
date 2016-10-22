@@ -15,8 +15,14 @@ Timelapse videos are a popular way to display the passing of time. Such timelaps
 
 ### Console application
 * Build the project *PhotoLapseConsole* (and also the referenced *PhotoLapseTools* project).
-* Drag and drop the images on *PhotoLapseConsole.exe*.
-* Enter the type of timelapse ('g' or 's'). The rendered image is placed next to the source images.
+* Run *PhotoLapseConsole.exe* with the following arguments:
+  * `-t`: type: `stripes` or `gradient`,
+  * `-i`: list of input files separated by space,
+  * `-o`: output file name,
+  * `-w`: (optional) weights.
+    * In stripes mode each image has a weight.
+    * In gradient mode each transition between two images has a weight, so there are one less weights than images.
+* Example: `PhotoLapseConsole.exe -t stripes -i img1.jpg img2.jpg img3.jpg -o out.jpg -w 1 2 3`.
 
 ## Requirements
 * GUI application requires .NET Framework 4.5
