@@ -11,6 +11,15 @@ namespace PhotoLapseTools.Creators
     /// </summary>
     public sealed class StripePhotoLapseCreator : IPhotoLapseCreator
     {
+        private int padding;
+
+        public int Padding { get { return padding; } }
+
+        public StripePhotoLapseCreator(int padding = 0)
+        {
+            this.padding = Math.Max(0, padding);
+        }
+
         /// <summary>
         /// Create photolapse
         /// </summary>
@@ -33,9 +42,10 @@ namespace PhotoLapseTools.Creators
         public Bitmap Process(List<string> images, List<float> weights, Reporters.IReporter reporter = null)
         {
             int w, h, x, y;
+            int w0, h0;
             PixelFormat pxFormat;
             int count = images.Count;
-            int stride, idx;
+            int stride, idx, idxp;
 
             if (reporter != null) reporter.Report(0, count);
 
@@ -48,23 +58,30 @@ namespace PhotoLapseTools.Creators
             // Get dimensions and pixel format for the first image
             using (Bitmap first = new Bitmap(images[0]))
             {
-                w = first.Width; h = first.Height;
+                w0 = first.Width;
+                h0 = first.Height;
+                w = first.Width + (count + 1) * padding;
+                h = first.Height + 2 * padding;
                 pxFormat = first.PixelFormat;
             }
 
             // Calculate the starting point of each stripe (float)
             float[] stripeStartF = new float[count];
             stripeStartF[0] = 0;
-            for (int i = 1; i < count; ++i) stripeStartF[i] = stripeStartF[i - 1] + w * weights[i - 1] / wSum;
+            for (int i = 1; i < count; ++i) stripeStartF[i] = stripeStartF[i - 1] + w0 * weights[i - 1] / wSum;
 
             // Calculate the starting point of each stripe rounded
             // The width of the image is added as an extra element
             int[] stripeStart = new int[count + 1];
             for (int i = 0; i < count; ++i) stripeStart[i] = (int)Math.Floor(stripeStartF[i]);
-            stripeStart[count] = w;
+            stripeStart[count] = w0;
                         
             // Create result
             Bitmap result = new Bitmap(w, h, pxFormat);
+            using (Graphics gfx = Graphics.FromImage(result))
+            {
+                gfx.Clear(Color.White);
+            }
             BitmapData resultData = result.LockBits(new Rectangle(0, 0, result.Width, result.Height),
                 ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
             stride = resultData.Stride;
@@ -81,20 +98,22 @@ namespace PhotoLapseTools.Creators
 
                     using (Bitmap actual = new Bitmap(images[img]))
                     {
-                        if (actual.Width != w || actual.Height != h)
+                        if (actual.Width != w0 || actual.Height != h0)
                             throw new Exception("Size mismatch at image [" + images[img] + "].");
                         BitmapData actualData = actual.LockBits(new Rectangle(0, 0, actual.Width, actual.Height),
                             ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
                         byte* actualPtr = (byte*)actualData.Scan0;
+                        int actStride = actualData.Stride;
 
                         for (x = start; x < end; ++x)
                         {
-                            for (y = 0; y < h; ++y)
+                            for (y = 0; y < h0; ++y)
                             {
-                                idx = y * stride + x * 3;
-                                resultPtr[idx] = actualPtr[idx];
-                                resultPtr[idx + 1] = actualPtr[idx + 1];
-                                resultPtr[idx + 2] = actualPtr[idx + 2];
+                                idx = y * actStride + x * 3;
+                                idxp =  (padding + y) * stride + ((img + 1) * padding + x) * 3;
+                                resultPtr[idxp] = actualPtr[idx];
+                                resultPtr[idxp + 1] = actualPtr[idx + 1];
+                                resultPtr[idxp + 2] = actualPtr[idx + 2];
                             }
                         }
                         actual.UnlockBits(actualData);
