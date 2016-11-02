@@ -41,90 +41,86 @@ namespace PhotoLapseTools.Creators
         /// <returns>Photolapse</returns>
         public Bitmap Process(List<string> images, List<float> weights, Reporters.IReporter reporter = null)
         {
-            int w, h, x, y;
-            int w0, h0;
+            int widthPadded, heightPadded, x, y;
+            int width, height;
+            int stridePadded, stride, idx, idxPadded;
             PixelFormat pxFormat;
-            int count = images.Count;
-            int stride, idx, idxp;
+            int imgCount = images.Count;
 
-            if (reporter != null) reporter.Report(0, count);
+            if (reporter != null) reporter.Report(0, imgCount);
 
             // Check if at least 1 image is provided
-            if (images.Count == 0) throw new Exception("No images to be processed.");
-            if (images.Count != weights.Count) throw new Exception("Number of images and weights do not match.");
-            float wSum = weights.Sum();
-            if (wSum < 0.00001f) throw new Exception("Sum of weights must not be zero.");
+            if (imgCount == 0) throw new Exception("No images to be processed.");
+            if (imgCount != weights.Count) throw new Exception("Number of images and weights do not match.");
+            float weightSum = weights.Sum();
+            if (weightSum < 0.00001f) throw new Exception("Sum of weights must not be zero.");
 
             // Get dimensions and pixel format for the first image
-            using (Bitmap first = new Bitmap(images[0]))
+            using (Bitmap firstImg = new Bitmap(images[0]))
             {
-                w0 = first.Width;
-                h0 = first.Height;
-                w = first.Width + (count + 1) * padding;
-                h = first.Height + 2 * padding;
-                pxFormat = first.PixelFormat;
+                width = firstImg.Width;
+                height = firstImg.Height;
+                widthPadded = firstImg.Width + (imgCount + 1) * padding;
+                heightPadded = firstImg.Height + 2 * padding;
+                pxFormat = firstImg.PixelFormat;
             }
 
             // Calculate the starting point of each stripe (float)
-            float[] stripeStartF = new float[count];
+            float[] stripeStartF = new float[imgCount];
             stripeStartF[0] = 0;
-            for (int i = 1; i < count; ++i) stripeStartF[i] = stripeStartF[i - 1] + w0 * weights[i - 1] / wSum;
+            for (int i = 1; i < imgCount; ++i) stripeStartF[i] = stripeStartF[i - 1] + width * weights[i - 1] / weightSum;
 
             // Calculate the starting point of each stripe rounded
             // The width of the image is added as an extra element
-            int[] stripeStart = new int[count + 1];
-            for (int i = 0; i < count; ++i) stripeStart[i] = (int)Math.Floor(stripeStartF[i]);
-            stripeStart[count] = w0;
+            int[] stripeStart = new int[imgCount + 1];
+            for (int i = 0; i < imgCount; ++i) stripeStart[i] = (int)Math.Floor(stripeStartF[i]);
+            stripeStart[imgCount] = width;
                         
             // Create result
-            Bitmap result = new Bitmap(w, h, pxFormat);
-            using (Graphics gfx = Graphics.FromImage(result))
-            {
-                gfx.Clear(Color.White);
-            }
-            BitmapData resultData = result.LockBits(new Rectangle(0, 0, result.Width, result.Height),
-                ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
-            stride = resultData.Stride;
+            Bitmap resultImg = new Bitmap(widthPadded, heightPadded, pxFormat);
+            using (Graphics gfx = Graphics.FromImage(resultImg)) { gfx.Clear(Color.White); }
+            BitmapData resultData = resultImg.LockBits(new Rectangle(0, 0, resultImg.Width, resultImg.Height), ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
+            stridePadded = resultData.Stride;
 
             unsafe
             {
                 byte* resultPtr = (byte*)resultData.Scan0;
 
                 // Loop through each image and create the stripe
-                for (int img = 0; img < count; ++img)
+                for (int img = 0; img < imgCount; ++img)
                 {
                     int start = stripeStart[img];
                     int end = stripeStart[img + 1];
 
                     using (Bitmap actual = new Bitmap(images[img]))
                     {
-                        if (actual.Width != w0 || actual.Height != h0)
+                        if (actual.Width != width || actual.Height != height)
                             throw new Exception("Size mismatch at image [" + images[img] + "].");
                         BitmapData actualData = actual.LockBits(new Rectangle(0, 0, actual.Width, actual.Height),
                             ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
                         byte* actualPtr = (byte*)actualData.Scan0;
-                        int actStride = actualData.Stride;
+                        stride = actualData.Stride;
 
                         for (x = start; x < end; ++x)
                         {
-                            for (y = 0; y < h0; ++y)
+                            for (y = 0; y < height; ++y)
                             {
-                                idx = y * actStride + x * 3;
-                                idxp =  (padding + y) * stride + ((img + 1) * padding + x) * 3;
-                                resultPtr[idxp] = actualPtr[idx];
-                                resultPtr[idxp + 1] = actualPtr[idx + 1];
-                                resultPtr[idxp + 2] = actualPtr[idx + 2];
+                                idx = y * stride + x * 3;
+                                idxPadded =  (padding + y) * stridePadded + ((img + 1) * padding + x) * 3;
+                                resultPtr[idxPadded] = actualPtr[idx];
+                                resultPtr[idxPadded + 1] = actualPtr[idx + 1];
+                                resultPtr[idxPadded + 2] = actualPtr[idx + 2];
                             }
                         }
                         actual.UnlockBits(actualData);
                     }
-                    if (reporter != null) reporter.Report(img + 1, count);
+                    if (reporter != null) reporter.Report(img + 1, imgCount);
                 }
             }
 
-            result.UnlockBits(resultData);
+            resultImg.UnlockBits(resultData);
                         
-            return result;
+            return resultImg;
         }
     }
 }
