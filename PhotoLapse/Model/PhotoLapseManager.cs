@@ -19,6 +19,7 @@ namespace PhotoLapse
         private BackgroundWorker bwRenderer, bwLoader; // Backgroundworkers for rendering and loading
         private OrderBy order;                         // Current order of images
         private bool isAscending;                      // Asc. or desc.
+        private int stripePadding;                     // Padding in stripe mode
 
         /// <summary>
         /// List of loaded photos
@@ -73,6 +74,15 @@ namespace PhotoLapse
         }
 
         /// <summary>
+        /// Padding in stripe mode
+        /// </summary>
+        public int StripePadding
+        {
+            get { return stripePadding; }
+            set { stripePadding = Math.Max(0, value); RaisePropertyChanged("StripePadding"); }
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public PhotoLapseManager()
@@ -86,6 +96,7 @@ namespace PhotoLapse
             bmpResult = null;
             order = OrderBy.Name;
             isAscending = true;
+            stripePadding = 0;
 
             // Initialize backgroundworkers
             bwRenderer = new BackgroundWorker();
@@ -123,7 +134,7 @@ namespace PhotoLapse
             Result = null; RaisePropertyChanged("Result");
             if (bmpResult != null) bmpResult.Dispose();
             // Initialize creator and start rendering worker
-            IPhotoLapseCreator creator = new StripePhotoLapseCreator();
+            IPhotoLapseCreator creator = new StripePhotoLapseCreator(stripePadding);
             if (type == PhotoLapseType.Gradient) creator = new GradientPhotoLapseCreator();
             IsIdle = false; RaisePropertyChanged("IsIdle");
             bwRenderer.RunWorkerAsync(creator);

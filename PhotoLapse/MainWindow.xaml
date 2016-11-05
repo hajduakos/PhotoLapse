@@ -41,8 +41,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        
-        
+
+
         <DockPanel LastChildFill="True" Grid.RowSpan="2" Margin="0 0 10 0">
             <Label Content="1. Load &amp; Select Images" DockPanel.Dock="Top" Style="{StaticResource styleBigLabel}"/>
             <DockPanel DockPanel.Dock="Top">
@@ -113,13 +113,17 @@
                 </ListView.ItemsPanel>
             </ListView>
         </DockPanel>
-        
+
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <Label Content="2. Settings &amp; Render" Style="{StaticResource styleBigLabel}"/>
             <WrapPanel>
                 <TextBlock Text="Type:" Margin="5 0 5 0" Padding="0 0 0 3" VerticalAlignment="Center"/>
-                <RadioButton x:Name="rbGradient" GroupName="g0" Content="Gradient" IsChecked="True" Margin="2 0 0 0" VerticalAlignment="Center"/>
-                <RadioButton x:Name="rbStripes" GroupName="g0" Content="Stripe" Margin="2 0 5 0" VerticalAlignment="Center"/>
+                <RadioButton x:Name="rbGradient" GroupName="g0" Content="Gradient" Margin="2 0 0 0" VerticalAlignment="Center"/>
+                <RadioButton x:Name="rbStripes" GroupName="g0" Content="Stripe" IsChecked="True" Margin="2 0 5 0" VerticalAlignment="Center"/>
+                <WrapPanel VerticalAlignment="Center" Visibility="{Binding IsChecked,ElementName=rbStripes,Converter={StaticResource b2v}}">
+                    <TextBlock Text=" Padding: "/>
+                    <TextBox Text="{Binding StripePadding, Mode=TwoWay}" Width="30" TextAlignment="Right"/>
+                </WrapPanel>
                 <Button x:Name="btnRender" Click="btnRender_Click" IsEnabled="{Binding IsIdle}" VerticalAlignment="Center">
                     <WrapPanel>
                         <Image Source="/images/cog.png" Style="{StaticResource styleBtnImage}"/>
@@ -128,7 +132,7 @@
                 </Button>
             </WrapPanel>
         </StackPanel>
-        
+
         <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False">
             <Label DockPanel.Dock="Top" Content="3. Preview &amp; Save" Style="{StaticResource styleBigLabel}"/>
             <WrapPanel DockPanel.Dock="Top">
@@ -143,7 +147,7 @@
             </WrapPanel>
             <Image Source="{Binding Result}" DockPanel.Dock="Top"/>
         </DockPanel>
-        
+
         <ProgressBar Height="20" Grid.Row="2" Grid.ColumnSpan="2" Minimum="0" Maximum="100"
                      Value="{Binding ProgressPercentage}"/>
         <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Message}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
