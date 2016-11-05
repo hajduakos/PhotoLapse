@@ -15,8 +15,9 @@ namespace PhotoLapseConsole
             List<string> images = new List<string>();
             List<float> weights = new List<float>();
             string output = null;
+            int padding = 0;
 
-            HashSet<string> opts = new HashSet<string>() { "-t", "-i", "-w", "-o" };
+            HashSet<string> opts = new HashSet<string>() { "-t", "-i", "-w", "-o", "-p" };
 
             try
             {
@@ -49,6 +50,10 @@ namespace PhotoLapseConsole
                     else if (args[i] == "-o")
                     {
                         output = args[i + 1];
+                    }
+                    else if (args[i] == "-p")
+                    {
+                        padding = int.Parse(args[i + 1]);
                     }
                 }
             }
@@ -83,7 +88,7 @@ namespace PhotoLapseConsole
             IPhotoLapseCreator creator = null;
 
             if (type.ToLower() == "gradient") creator = new GradientPhotoLapseCreator();
-            else creator = new StripePhotoLapseCreator();
+            else creator = new StripePhotoLapseCreator(padding);
 
             // Create and save image
             try
@@ -107,8 +112,8 @@ namespace PhotoLapseConsole
 
         private static void PrintUsage()
         {
-            Console.WriteLine("Usage: PhotoLapseConsole.exe -t stripes|gradient -i images -o output [-w weights]");
-            Console.WriteLine("Example: PhotoLapseConsole.exe -t stripes -i img1.jpg img2.jpg img3.jpg -o out.jpg -w 1 2 3");
+            Console.WriteLine("Usage: PhotoLapseConsole.exe -t stripes|gradient -i images -o output [-w weights] [-p padding]");
+            Console.WriteLine("Example: PhotoLapseConsole.exe -t stripes -i img1.jpg img2.jpg img3.jpg -o out.jpg -w 1 2 3 -p 10");
         }
     }
 }
