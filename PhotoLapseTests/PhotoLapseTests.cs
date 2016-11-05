@@ -26,6 +26,9 @@ namespace PhotoLapseTests
             Test(stripe, new List<float>() { 0, 0, 0, 0, 0, 1 }, "stripe000001.bmp");
             Test(stripe, new List<float>() { 0, 0, 1, 0, 0, 0 }, "stripe001000.bmp");
             Test(stripe, new List<float>() { 1, 2, 3, 4, 5, 6 }, "stripe123456.bmp");
+            Test(new StripePhotoLapseCreator(10), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_10.bmp");
+            Test(new StripePhotoLapseCreator(20), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_20.bmp");
+            Test(new StripePhotoLapseCreator(30), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_30.bmp");
         }
 
         [TestMethod]
