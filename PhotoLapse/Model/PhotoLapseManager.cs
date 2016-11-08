@@ -243,8 +243,15 @@ namespace PhotoLapse
             List<string> photos = Photos.Where(p => p.IsSelected).Select(p => p.Path).ToList();
             List<float> weights = Photos.Where(p => p.IsSelected).Select(p => p.Weight).ToList();
             if (creator is GradientPhotoLapseCreator) weights.RemoveAt(weights.Count - 1);
-
-            bmpResult = creator.Process(photos, weights, new BgWorkerReporter(bwRenderer));
+            try
+            {
+                bmpResult = creator.Process(photos, weights, new BgWorkerReporter(bwRenderer));
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("An error occured: " + ex.Message);
+                bmpResult = null;
+            }
         }
 
         // Rendering progress changed
@@ -257,7 +264,11 @@ namespace PhotoLapse
         // Rendering complete
         private void bwRenderer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Result = BitmapToBitmapSource(bmpResult); RaisePropertyChanged("Result");
+            if (bmpResult != null)
+            {
+                Result = BitmapToBitmapSource(bmpResult);
+            }
+            RaisePropertyChanged("Result");
             IsIdle = true; RaisePropertyChanged("IsIdle");
             Message = "Rendering complete!"; RaisePropertyChanged("Message");
         }
