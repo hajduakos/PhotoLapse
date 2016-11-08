@@ -3,14 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PhotoLapse" Height="400" Width="950" WindowState="Maximized"
         Icon="/images/icon.png"
-        Drop="Window_Drop" AllowDrop="True">
+        Drop="Window_Drop" AllowDrop="True" Background="#2D2D30" Foreground="White">
     <Window.Resources>
         <Style x:Key="styleBigLabel" TargetType="Label">
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Margin" Value="2 0 2 2"/>
             <Setter Property="Padding" Value="5 5 5 2"/>
             <Setter Property="BorderThickness" Value="0 0 0 1"/>
-            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Foreground" Value="White"/>
         </Style>
         <Style TargetType="Button">
             <Setter Property="Padding" Value="2"/>
@@ -28,6 +29,25 @@
             <Setter Property="BorderThickness" Value="0 0 0 1"/>
             <Setter Property="BorderBrush" Value="Blue"/>
             <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="#333337"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#333337"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="ProgressBar">
+            <Setter Property="Background" Value="#333337"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
         <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
@@ -61,12 +81,12 @@
                 </WrapPanel>
             </DockPanel>
             <WrapPanel DockPanel.Dock="Top">
-                <Label Content="Select:" VerticalAlignment="Bottom" Margin="2 4 2 5" Padding="0"/>
+                <TextBlock Text="Select:" VerticalAlignment="Bottom" Margin="2 4 2 5" Padding="0"/>
                 <Label x:Name="lblSelectAll" Content="All" VerticalAlignment="Bottom"
                        Style="{StaticResource styleLinkLabel}" MouseUp="lblSelectAll_MouseUp"/>
                 <Label x:Name="lblSelectNone" Content="None" VerticalAlignment="Bottom"
                        Style="{StaticResource styleLinkLabel}" MouseUp="lblSelectNone_MouseUp"/>
-                <Label Content="Order by:" VerticalAlignment="Bottom" Margin="10 4 2 5" Padding="0"/>
+                <TextBlock Text="Order by:" VerticalAlignment="Bottom" Margin="10 4 2 5" Padding="0"/>
                 <Label x:Name="lblordName" Content="Name" VerticalAlignment="Bottom"
                        Style="{StaticResource styleLinkLabel}" MouseUp="lblordName_MouseUp"/>
                 <Label x:Name="lblordDate" Content="Date" VerticalAlignment="Bottom"
