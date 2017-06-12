@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using PhotoLapseTools.Creators;
+using PhotoLapse.Creators;
 using System.Linq;
 using System.Drawing;
 using System.Drawing.Imaging;

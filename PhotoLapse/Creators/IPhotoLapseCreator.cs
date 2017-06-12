@@ -1,8 +1,8 @@
-﻿
-using PhotoLapseTools.Reporters;
+﻿using PhotoLapse.Reporters;
 using System.Collections.Generic;
 using System.Drawing;
-namespace PhotoLapseTools.Creators
+
+namespace PhotoLapse.Creators
 {
     /// <summary>
     /// PhotoLapse creator interface

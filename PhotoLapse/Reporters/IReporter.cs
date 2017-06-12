@@ -1,5 +1,5 @@
 ﻿
-namespace PhotoLapseTools.Reporters
+namespace PhotoLapse.Reporters
 {
     /// <summary>
     /// Reporter interface

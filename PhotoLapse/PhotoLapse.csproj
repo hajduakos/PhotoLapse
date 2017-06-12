@@ -58,6 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Reporters\IReporter.cs" />
+    <Compile Include="Utils\PhotoUtils.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -66,6 +68,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Creators\GradientPhotoLapseCreator .cs" />
+    <Compile Include="Creators\IPhotoLapseCreator.cs" />
+    <Compile Include="Creators\StripePhotoLapseCreator.cs" />
     <Compile Include="Model\BgWorkerReporter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -102,12 +107,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PhotolapseTools\PhotoLapseTools.csproj">
-      <Project>{e0ce809c-c028-46de-95d0-b03a0ffe3465}</Project>
-      <Name>PhotoLapseTools</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\cog.png" />

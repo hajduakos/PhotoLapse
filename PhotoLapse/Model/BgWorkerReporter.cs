@@ -1,4 +1,4 @@
-﻿using PhotoLapseTools.Reporters;
+﻿using PhotoLapse.Reporters;
 using System.ComponentModel;
 
 namespace PhotoLapse

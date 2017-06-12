@@ -1,5 +1,5 @@
-﻿using PhotoLapseTools.Creators;
-using PhotoLapseTools.Utils;
+﻿using PhotoLapse.Creators;
+using PhotoLapse.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

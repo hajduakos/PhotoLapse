@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 
-namespace PhotoLapseTools.Creators
+namespace PhotoLapse.Creators
 {
     /// <summary>
     /// Gradient PhotoLapse creator
