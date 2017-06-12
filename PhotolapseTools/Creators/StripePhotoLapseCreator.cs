@@ -46,9 +46,7 @@ namespace PhotoLapseTools.Creators
             int stridePadded, stride, idx, idxPadded;
             PixelFormat pxFormat;
             int imgCount = images.Count;
-
-            if (reporter != null) reporter.Report(0, imgCount);
-
+            
             // Check if at least 1 image is provided
             if (imgCount == 0) throw new Exception("No images to be processed.");
             if (imgCount != weights.Count) throw new Exception("Number of images and weights do not match.");
@@ -64,6 +62,7 @@ namespace PhotoLapseTools.Creators
                 heightPadded = firstImg.Height + 2 * padding;
                 pxFormat = firstImg.PixelFormat;
             }
+            if (reporter != null) reporter.Report(0, width);
 
             // Calculate the starting point of each stripe (float)
             float[] stripeStartF = new float[imgCount];
@@ -111,14 +110,16 @@ namespace PhotoLapseTools.Creators
                                 resultPtr[idxPadded + 1] = actualPtr[idx + 1];
                                 resultPtr[idxPadded + 2] = actualPtr[idx + 2];
                             }
+                            if (reporter != null) reporter.Report(x, width);
                         }
                         actual.UnlockBits(actualData);
                     }
-                    if (reporter != null) reporter.Report(img + 1, imgCount);
                 }
             }
 
             resultImg.UnlockBits(resultData);
+
+            if (reporter != null) reporter.Report(width, width);
                         
             return resultImg;
         }

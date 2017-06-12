@@ -37,8 +37,6 @@ namespace PhotoLapseTools.Creators
             int count = images.Count;
             int stride, idx;
 
-            if (reporter != null) reporter.Report(0, count);
-
             // Check if at least 2 images are provided
             if (images.Count == 0) throw new Exception("No images to be processed.");
             if (images.Count < 2) throw new Exception("At least 2 images are required for this type of photolapse.");
@@ -52,6 +50,7 @@ namespace PhotoLapseTools.Creators
                 w = first.Width; h = first.Height;
                 pxFormat = first.PixelFormat;
             }
+            if (reporter != null) reporter.Report(0, w);
 
             // There are count of images - 1 vertical stripes
 
@@ -108,17 +107,17 @@ namespace PhotoLapseTools.Creators
                                 resultPtr[idx + 1] = (byte)(r0 * actualPtr[idx + 1] + r1 * nextPtr[idx + 1]);
                                 resultPtr[idx + 2] = (byte)(r0 * actualPtr[idx + 2] + r1 * nextPtr[idx + 2]);
                             }
+                            if (reporter != null) reporter.Report(x, w);
                         }
 
                         actual.UnlockBits(actualData);
                         next.UnlockBits(nextData);
 
                     }
-                    if (reporter != null) reporter.Report(img + 1, count);
                 }
             }
 
-            if (reporter != null) reporter.Report(count, count);
+            if (reporter != null) reporter.Report(w, w);
 
             result.UnlockBits(resultData);
             

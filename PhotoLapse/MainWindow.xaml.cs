@@ -82,7 +82,7 @@ namespace PhotoLapse
 
         private void Label_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            MessageBox.Show("Created by Akos Hajdu 2014-2016\r\n\r\n"
+            MessageBox.Show("Created by Akos Hajdu 2014-2017\r\n\r\n"
             + "http://hajduakos.github.io/PhotoLapse/\r\n\r\n"
             + "Icons: http://famfamfam.com/lab/icons/silk", "About");
         }
