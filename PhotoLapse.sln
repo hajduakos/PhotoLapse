@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoLapseTools", "PhotolapseTools\PhotoLapseTools.csproj", "{E0CE809C-C028-46DE-95D0-B03A0FFE3465}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoLapseConsole", "PhotoLapseConsole\PhotoLapseConsole.csproj", "{62937D8D-BB05-4FFB-A23F-0D1693935DCE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoLapse", "PhotoLapse\PhotoLapse.csproj", "{3ABD00F7-E043-46D4-A542-EF826BC5A24A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoLapseTests", "PhotoLapseTests\PhotoLapseTests.csproj", "{BFED9CE4-E519-4B37-BF7B-B6B4F0A9294C}"
@@ -21,10 +19,6 @@ Global
 		{E0CE809C-C028-46DE-95D0-B03A0FFE3465}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0CE809C-C028-46DE-95D0-B03A0FFE3465}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0CE809C-C028-46DE-95D0-B03A0FFE3465}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62937D8D-BB05-4FFB-A23F-0D1693935DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62937D8D-BB05-4FFB-A23F-0D1693935DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62937D8D-BB05-4FFB-A23F-0D1693935DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62937D8D-BB05-4FFB-A23F-0D1693935DCE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3ABD00F7-E043-46D4-A542-EF826BC5A24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3ABD00F7-E043-46D4-A542-EF826BC5A24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ABD00F7-E043-46D4-A542-EF826BC5A24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
