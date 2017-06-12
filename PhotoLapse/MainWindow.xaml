@@ -113,11 +113,12 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" Margin="3" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" Margin="3" VerticalAlignment="Center" />
                             <Image Grid.Column="1"  Height="{Binding ElementName=slThumbsize,Path=Value}" Source="{Binding Thumb}" RenderOptions.BitmapScalingMode="NearestNeighbor" VerticalAlignment="Center"/>
                             <WrapPanel Grid.Column="2" Orientation="Vertical">
                                 <TextBlock Text="{Binding Name}" Margin="3 0 0 0" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding DateModified,StringFormat={}{0:yyyy.MM.dd. HH:mm:ss}}" Margin="3 0 0 0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding DateModified,StringFormat={}{0:yyyy.MM.dd.}}" Margin="3 0 0 0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding DateModified,StringFormat={}{0:HH:mm:ss}}" Margin="3 0 0 0" VerticalAlignment="Center"/>
                                 <WrapPanel Orientation="Horizontal" Margin="3 0 0 0" Visibility="{Binding IsChecked,ElementName=cbWeights,Converter={StaticResource b2v}}">
                                     <TextBlock Text="Weight: " VerticalAlignment="Center"/>
                                     <TextBox Text="{Binding Weight,Mode=TwoWay}" Width="20"/>
