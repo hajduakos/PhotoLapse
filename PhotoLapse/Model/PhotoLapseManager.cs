@@ -16,7 +16,8 @@ namespace PhotoLapse
     public class PhotoLapseManager : INotifyPropertyChanged
     {
         private System.Drawing.Bitmap bmpResult;       // Rendering result (RAW)
-        private BackgroundWorker bwRenderer, bwLoader; // Backgroundworkers for rendering and loading
+        private readonly BackgroundWorker bwRenderer;
+        private readonly BackgroundWorker bwLoader;
         private OrderBy order;                         // Current order of images
         private bool isAscending;                      // Asc. or desc.
         private int stripePadding;                     // Padding in stripe mode
@@ -66,7 +67,7 @@ namespace PhotoLapse
             get
             {
                 string fileName = "";
-                Photo first = Photos.Where(p => p.IsSelected).FirstOrDefault();
+                Photo first = Photos.FirstOrDefault(p => p.IsSelected);
                 if (first != null) fileName += first.Name + "_";
                 fileName += "photolapse_" + Photos.Count(p => p.IsSelected) + "_images.jpg";
                 return fileName;
@@ -193,7 +194,7 @@ namespace PhotoLapse
                     temp = Photos.OrderBy(p => p.Name).ToList();
                     break;
                 default:
-                    temp = Photos.OrderBy(p => p.Name).ToList();
+                    temp = Photos.OrderBy(p => p.DateModified).ToList();
                     break;
             }
             if (!isAscending) temp.Reverse();
@@ -298,7 +299,7 @@ namespace PhotoLapse
         // Helper function for INPC
         private void RaisePropertyChanged(string property)
         {
-            if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }

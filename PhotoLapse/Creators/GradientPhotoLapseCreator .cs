@@ -38,11 +38,11 @@ namespace PhotoLapse.Creators
             int stride, idx;
 
             // Check if at least 2 images are provided
-            if (images.Count == 0) throw new Exception("No images to be processed.");
-            if (images.Count < 2) throw new Exception("At least 2 images are required for this type of photolapse.");
-            if (images.Count != weights.Count + 1) throw new Exception("Number of weights must be one less than the number of images.");
+            if (images.Count == 0) throw new ArgumentException("No images to be processed.");
+            if (images.Count < 2) throw new ArgumentException("At least 2 images are required for this type of photolapse.");
+            if (images.Count != weights.Count + 1) throw new ArgumentException("Number of weights must be one less than the number of images.");
             float wSum = weights.Sum();
-            if (wSum < 0.00001f) throw new Exception("Sum of weights must not be zero.");
+            if (wSum < 0.00001f) throw new ArgumentException("Sum of weights must not be zero.");
 
             // Get dimensions and pixelformat for the first image
             using (Bitmap first = new Bitmap(images[0]))
@@ -85,9 +85,9 @@ namespace PhotoLapse.Creators
                     using (Bitmap next = new Bitmap(images[img + 1]))
                     {
                         if (actual.Width != w || actual.Height != h)
-                            throw new Exception("Size mismatch at image [" + images[img] + "].");
+                            throw new ArgumentException("Size mismatch at image [" + images[img] + "].");
                         if (next.Width != w || next.Height != h)
-                            throw new Exception("Size mismatch at image [" + images[img + 1] + "].");
+                            throw new ArgumentException("Size mismatch at image [" + images[img + 1] + "].");
 
                         BitmapData actualData = actual.LockBits(new Rectangle(0, 0, w, h),
                             ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);

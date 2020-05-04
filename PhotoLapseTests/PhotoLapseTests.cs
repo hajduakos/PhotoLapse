@@ -11,8 +11,8 @@ namespace PhotoLapseTests
     [TestClass]
     public class PhotoLapseTests
     {
-        private static List<string> images = new List<string>() { "ff0000.png", "ffff00.png", "00ff00.png", "00ffff.png", "0000ff.png", "ff00ff.png" };
-        private static string imagesPath = "../../images/";
+        private static readonly List<string> images = new List<string>() { "ff0000.png", "ffff00.png", "00ff00.png", "00ffff.png", "0000ff.png", "ff00ff.png" };
+        private static readonly string imagesPath = "../../images/";
 
         [TestMethod]
         public void TestStripes()
@@ -29,6 +29,7 @@ namespace PhotoLapseTests
             Test(new StripePhotoLapseCreator(10), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_10.bmp");
             Test(new StripePhotoLapseCreator(20), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_20.bmp");
             Test(new StripePhotoLapseCreator(30), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_30.bmp");
+            Assert.IsTrue(true);
         }
 
         [TestMethod]
@@ -39,6 +40,7 @@ namespace PhotoLapseTests
             Test(grad, new List<float>() { 1, 2, 1, 2, 1 }, "gradient12121.bmp");
             Test(grad, new List<float>() { 1, 0, 0, 0, 0 }, "gradient10000.bmp");
             Test(grad, new List<float>() { 1, 1, 1, 3, 1 }, "gradient11131.bmp");
+            Assert.IsTrue(true);
         }
 
         public void Test(IPhotoLapseCreator creator, List<float> weights, string expected)

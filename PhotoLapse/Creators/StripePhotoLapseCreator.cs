@@ -11,7 +11,7 @@ namespace PhotoLapse.Creators
     /// </summary>
     public sealed class StripePhotoLapseCreator : IPhotoLapseCreator
     {
-        private int padding;
+        private readonly int padding;
 
         public int Padding { get { return padding; } }
 
@@ -48,10 +48,10 @@ namespace PhotoLapse.Creators
             int imgCount = images.Count;
             
             // Check if at least 1 image is provided
-            if (imgCount == 0) throw new Exception("No images to be processed.");
-            if (imgCount != weights.Count) throw new Exception("Number of images and weights do not match.");
+            if (imgCount == 0) throw new ArgumentException("No images to be processed.");
+            if (imgCount != weights.Count) throw new ArgumentException("Number of images and weights do not match.");
             float weightSum = weights.Sum();
-            if (weightSum < 0.00001f) throw new Exception("Sum of weights must not be zero.");
+            if (weightSum < 0.00001f) throw new ArgumentException("Sum of weights must not be zero.");
 
             // Get dimensions and pixel format for the first image
             using (Bitmap firstImg = new Bitmap(images[0]))
@@ -94,7 +94,7 @@ namespace PhotoLapse.Creators
                     using (Bitmap actual = new Bitmap(images[img]))
                     {
                         if (actual.Width != width || actual.Height != height)
-                            throw new Exception("Size mismatch at image [" + images[img] + "].");
+                            throw new ArgumentException("Size mismatch at image [" + images[img] + "].");
                         BitmapData actualData = actual.LockBits(new Rectangle(0, 0, actual.Width, actual.Height),
                             ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
                         byte* actualPtr = (byte*)actualData.Scan0;

@@ -8,7 +8,7 @@ namespace PhotoLapse
     /// </summary>
     class BgWorkerReporter : IReporter
     {
-        private BackgroundWorker worker;
+        private readonly BackgroundWorker worker;
 
         /// <summary>
         /// Report progress
