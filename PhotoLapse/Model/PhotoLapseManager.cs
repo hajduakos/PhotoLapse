@@ -197,9 +197,11 @@ namespace PhotoLapse
                 case OrderBy.Name:
                     temp = Photos.OrderBy(p => p.Name).ToList();
                     break;
-                default:
+                case OrderBy.Date:
                     temp = Photos.OrderBy(p => p.DateModified).ToList();
                     break;
+                default:
+                    throw new ArgumentException("Unknown ordering");
             }
             if (!isAscending) { temp.Reverse(); }
             Photos = new ObservableCollection<Photo>(temp);
