@@ -54,8 +54,8 @@ namespace PhotoLapse
         {
             get
             {
-                if (Photos.Count < 2) return TimeSpan.FromSeconds(0);
-                else return Photos.Max(p => p.DateModified) - Photos.Min(p => p.DateModified);
+                if (Photos.Count < 2) { return TimeSpan.FromSeconds(0); }
+                else { return Photos.Max(p => p.DateModified) - Photos.Min(p => p.DateModified); }
             }
         }
 
@@ -68,7 +68,7 @@ namespace PhotoLapse
             {
                 string fileName = "";
                 Photo first = Photos.FirstOrDefault(p => p.IsSelected);
-                if (first != null) fileName += first.Name + "_";
+                if (first != null) { fileName += first.Name + "_"; }
                 fileName += "photolapse_" + Photos.Count(p => p.IsSelected) + "_images.jpg";
                 return fileName;
             }
@@ -137,10 +137,10 @@ namespace PhotoLapse
         {
             // Clear previous result to save memory
             Result = null; RaisePropertyChanged("Result");
-            if (bmpResult != null) bmpResult.Dispose();
+            bmpResult?.Dispose();
             // Initialize creator and start rendering worker
             IPhotoLapseCreator creator = new StripePhotoLapseCreator(stripePadding);
-            if (type == PhotoLapseType.Gradient) creator = new GradientPhotoLapseCreator();
+            if (type == PhotoLapseType.Gradient) { creator = new GradientPhotoLapseCreator(); }
             IsIdle = false; RaisePropertyChanged("IsIdle");
             bwRenderer.RunWorkerAsync(creator);
         }
@@ -160,7 +160,7 @@ namespace PhotoLapse
         /// </summary>
         public void SelectAll()
         {
-            foreach (Photo p in Photos) p.IsSelected = true;
+            foreach (Photo p in Photos) { p.IsSelected = true; }
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace PhotoLapse
         /// </summary>
         public void SelectNone()
         {
-            foreach (Photo p in Photos) p.IsSelected = false;
+            foreach (Photo p in Photos) { p.IsSelected = false; }
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace PhotoLapse
         /// <param name="orderBy">Property that is ordered</param>
         public void OrderImages(OrderBy orderBy)
         {
-            if (this.order == orderBy) isAscending = !isAscending;
+            if (this.order == orderBy) { isAscending = !isAscending; }
             else
             {
                 this.order = orderBy;
@@ -201,7 +201,7 @@ namespace PhotoLapse
                     temp = Photos.OrderBy(p => p.DateModified).ToList();
                     break;
             }
-            if (!isAscending) temp.Reverse();
+            if (!isAscending) { temp.Reverse(); }
             Photos = new ObservableCollection<Photo>(temp);
             RaisePropertyChanged("Photos");
         }
@@ -227,7 +227,7 @@ namespace PhotoLapse
             ProgressPercentage = e.ProgressPercentage; RaisePropertyChanged("ProgressPercentage");
             Message = "Loading " + e.ProgressPercentage + "%"; RaisePropertyChanged("Message");
             // Retrieve photo from user state and add to list
-            if (e.UserState != null) Photos.Add(e.UserState as Photo);
+            if (e.UserState != null) { Photos.Add(e.UserState as Photo); }
             RaisePropertyChanged("TimeSpan");
         }
 
@@ -247,7 +247,7 @@ namespace PhotoLapse
             IPhotoLapseCreator creator = e.Argument as IPhotoLapseCreator;
             List<string> photos = Photos.Where(p => p.IsSelected).Select(p => p.Path).ToList();
             List<float> weights = Photos.Where(p => p.IsSelected).Select(p => p.Weight).ToList();
-            if (creator is GradientPhotoLapseCreator) weights.RemoveAt(weights.Count - 1);
+            if (creator is GradientPhotoLapseCreator) { weights.RemoveAt(weights.Count - 1); }
             try
             {
                 bmpResult = creator.Process(photos, weights, new BgWorkerReporter(bwRenderer));
@@ -269,10 +269,7 @@ namespace PhotoLapse
         // Rendering complete
         private void bwRenderer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (bmpResult != null)
-            {
-                Result = BitmapToBitmapSource(bmpResult);
-            }
+            if (bmpResult != null) { Result = BitmapToBitmapSource(bmpResult); }
             RaisePropertyChanged("Result");
             IsIdle = true; RaisePropertyChanged("IsIdle");
             Message = "Rendering complete!"; RaisePropertyChanged("Message");
