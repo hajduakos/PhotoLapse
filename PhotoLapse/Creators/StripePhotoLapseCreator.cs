@@ -46,12 +46,12 @@ namespace PhotoLapse.Creators
             int stridePadded, stride, idx, idxPadded;
             PixelFormat pxFormat;
             int imgCount = images.Count;
-            
+
             // Check if at least 1 image is provided
-            if (imgCount == 0) throw new ArgumentException("No images to be processed.");
-            if (imgCount != weights.Count) throw new ArgumentException("Number of images and weights do not match.");
+            if (imgCount == 0) { throw new ArgumentException("No images to be processed."); }
+            if (imgCount != weights.Count) { throw new ArgumentException("Number of images and weights do not match."); }
             float weightSum = weights.Sum();
-            if (weightSum < 0.00001f) throw new ArgumentException("Sum of weights must not be zero.");
+            if (weightSum < 0.00001f) { throw new ArgumentException("Sum of weights must not be zero."); }
 
             // Get dimensions and pixel format for the first image
             using (Bitmap firstImg = new Bitmap(images[0]))
@@ -62,17 +62,17 @@ namespace PhotoLapse.Creators
                 heightPadded = firstImg.Height + 2 * padding;
                 pxFormat = firstImg.PixelFormat;
             }
-            if (reporter != null) reporter.Report(0, width);
+            reporter?.Report(0, width);
 
             // Calculate the starting point of each stripe (float)
             float[] stripeStartF = new float[imgCount];
             stripeStartF[0] = 0;
-            for (int i = 1; i < imgCount; ++i) stripeStartF[i] = stripeStartF[i - 1] + width * weights[i - 1] / weightSum;
+            for (int i = 1; i < imgCount; ++i) { stripeStartF[i] = stripeStartF[i - 1] + width * weights[i - 1] / weightSum; }
 
             // Calculate the starting point of each stripe rounded
             // The width of the image is added as an extra element
             int[] stripeStart = new int[imgCount + 1];
-            for (int i = 0; i < imgCount; ++i) stripeStart[i] = (int)Math.Floor(stripeStartF[i]);
+            for (int i = 0; i < imgCount; ++i) { stripeStart[i] = (int)Math.Floor(stripeStartF[i]); }
             stripeStart[imgCount] = width;
                         
             // Create result
@@ -94,7 +94,9 @@ namespace PhotoLapse.Creators
                     using (Bitmap actual = new Bitmap(images[img]))
                     {
                         if (actual.Width != width || actual.Height != height)
+                        {
                             throw new ArgumentException("Size mismatch at image [" + images[img] + "].");
+                        }
                         BitmapData actualData = actual.LockBits(new Rectangle(0, 0, actual.Width, actual.Height),
                             ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
                         byte* actualPtr = (byte*)actualData.Scan0;
@@ -110,7 +112,7 @@ namespace PhotoLapse.Creators
                                 resultPtr[idxPadded + 1] = actualPtr[idx + 1];
                                 resultPtr[idxPadded + 2] = actualPtr[idx + 2];
                             }
-                            if (reporter != null) reporter.Report(x, width);
+                            reporter?.Report(x, width);
                         }
                         actual.UnlockBits(actualData);
                     }
@@ -119,7 +121,7 @@ namespace PhotoLapse.Creators
 
             resultImg.UnlockBits(resultData);
 
-            if (reporter != null) reporter.Report(width, width);
+            reporter?.Report(width, width);
                         
             return resultImg;
         }

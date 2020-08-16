@@ -38,11 +38,11 @@ namespace PhotoLapse.Creators
             int stride, idx;
 
             // Check if at least 2 images are provided
-            if (images.Count == 0) throw new ArgumentException("No images to be processed.");
-            if (images.Count < 2) throw new ArgumentException("At least 2 images are required for this type of photolapse.");
-            if (images.Count != weights.Count + 1) throw new ArgumentException("Number of weights must be one less than the number of images.");
+            if (images.Count == 0) { throw new ArgumentException("No images to be processed."); }
+            if (images.Count < 2) { throw new ArgumentException("At least 2 images are required for this type of photolapse."); }
+            if (images.Count != weights.Count + 1) { throw new ArgumentException("Number of weights must be one less than the number of images."); }
             float wSum = weights.Sum();
-            if (wSum < 0.00001f) throw new ArgumentException("Sum of weights must not be zero.");
+            if (wSum < 0.00001f) { throw new ArgumentException("Sum of weights must not be zero."); }
 
             // Get dimensions and pixelformat for the first image
             using (Bitmap first = new Bitmap(images[0]))
@@ -50,19 +50,19 @@ namespace PhotoLapse.Creators
                 w = first.Width; h = first.Height;
                 pxFormat = first.PixelFormat;
             }
-            if (reporter != null) reporter.Report(0, w);
+            reporter?.Report(0, w);
 
             // There are count of images - 1 vertical stripes
 
             // Calculate the starting point of each stripe (float)
             float[] stripeStartF = new float[count - 1];
             stripeStartF[0] = 0;
-            for (int i = 1; i < count - 1; ++i) stripeStartF[i] = stripeStartF[i - 1] + w * weights[i - 1] / wSum;
+            for (int i = 1; i < count - 1; ++i) { stripeStartF[i] = stripeStartF[i - 1] + w * weights[i - 1] / wSum; }
 
             // Calculate the starting point of each stripe rounded
             // The width of the image is added as an extra element
             int[] stripeStart = new int[count];
-            for (int i = 0; i < count - 1; ++i) stripeStart[i] = (int)Math.Floor(stripeStartF[i]);
+            for (int i = 0; i < count - 1; ++i) { stripeStart[i] = (int)Math.Floor(stripeStartF[i]); }
             stripeStart[count - 1] = w;
             
             // Create result
@@ -85,9 +85,13 @@ namespace PhotoLapse.Creators
                     using (Bitmap next = new Bitmap(images[img + 1]))
                     {
                         if (actual.Width != w || actual.Height != h)
+                        {
                             throw new ArgumentException("Size mismatch at image [" + images[img] + "].");
+                        }
                         if (next.Width != w || next.Height != h)
+                        {
                             throw new ArgumentException("Size mismatch at image [" + images[img + 1] + "].");
+                        }
 
                         BitmapData actualData = actual.LockBits(new Rectangle(0, 0, w, h),
                             ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
@@ -107,7 +111,7 @@ namespace PhotoLapse.Creators
                                 resultPtr[idx + 1] = (byte)(r0 * actualPtr[idx + 1] + r1 * nextPtr[idx + 1]);
                                 resultPtr[idx + 2] = (byte)(r0 * actualPtr[idx + 2] + r1 * nextPtr[idx + 2]);
                             }
-                            if (reporter != null) reporter.Report(x, w);
+                            reporter?.Report(x, w);
                         }
 
                         actual.UnlockBits(actualData);
@@ -117,7 +121,7 @@ namespace PhotoLapse.Creators
                 }
             }
 
-            if (reporter != null) reporter.Report(w, w);
+            reporter?.Report(w, w);
 
             result.UnlockBits(resultData);
             
