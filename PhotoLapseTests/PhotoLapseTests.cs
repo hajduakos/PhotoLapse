@@ -64,8 +64,8 @@ namespace PhotoLapseTests
 
         private static bool Compare(Bitmap actual, Bitmap expected, int tolerance)
         {
-            if (actual.Width != expected.Width) return false;
-            if (actual.Height != expected.Height) return false;
+            if (actual.Width != expected.Width) { return false; }
+            if (actual.Height != expected.Height) { return false; }
             BitmapData bmdAct = actual.LockBits(new Rectangle(0, 0, actual.Width, actual.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             BitmapData bmdExp = expected.LockBits(new Rectangle(0, 0, actual.Width, actual.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
