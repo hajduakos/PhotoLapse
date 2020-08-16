@@ -100,14 +100,18 @@ namespace PhotoLapse
             stripePadding = 0;
 
             // Initialize backgroundworkers
-            bwRenderer = new BackgroundWorker();
-            bwRenderer.WorkerReportsProgress = true;
+            bwRenderer = new BackgroundWorker
+            {
+                WorkerReportsProgress = true
+            };
             bwRenderer.DoWork += bwRenderer_DoWork;
             bwRenderer.ProgressChanged += bwRenderer_ProgressChanged;
             bwRenderer.RunWorkerCompleted += bwRenderer_RunWorkerCompleted;
 
-            bwLoader = new BackgroundWorker();
-            bwLoader.WorkerReportsProgress = true;
+            bwLoader = new BackgroundWorker
+            {
+                WorkerReportsProgress = true
+            };
             bwLoader.DoWork += bwLoader_DoWork;
             bwLoader.ProgressChanged += bwLoader_ProgressChanged;
             bwLoader.RunWorkerCompleted += bwLoader_RunWorkerCompleted;

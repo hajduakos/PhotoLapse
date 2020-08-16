@@ -11,24 +11,24 @@ namespace PhotoLapseTests
     [TestClass]
     public class PhotoLapseTests
     {
-        private static readonly List<string> images = new List<string>() { "ff0000.png", "ffff00.png", "00ff00.png", "00ffff.png", "0000ff.png", "ff00ff.png" };
+        private static readonly List<string> images = new List<string> { "ff0000.png", "ffff00.png", "00ff00.png", "00ffff.png", "0000ff.png", "ff00ff.png" };
         private static readonly string imagesPath = "../../images/";
 
         [TestMethod]
         public void TestStripes()
         {
             IPhotoLapseCreator stripe = new StripePhotoLapseCreator();
-            Test(stripe, new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe111111.bmp");
-            Test(stripe, new List<float>() { 1, 2, 1, 2, 1, 2 }, "stripe121212.bmp");
-            Test(stripe, new List<float>() { 0, 1, 0, 1, 0, 1 }, "stripe010101.bmp");
-            Test(stripe, new List<float>() { 1, 0, 1, 0, 1, 0 }, "stripe101010.bmp");
-            Test(stripe, new List<float>() { 1, 0, 0, 0, 0, 0 }, "stripe100000.bmp");
-            Test(stripe, new List<float>() { 0, 0, 0, 0, 0, 1 }, "stripe000001.bmp");
-            Test(stripe, new List<float>() { 0, 0, 1, 0, 0, 0 }, "stripe001000.bmp");
-            Test(stripe, new List<float>() { 1, 2, 3, 4, 5, 6 }, "stripe123456.bmp");
-            Test(new StripePhotoLapseCreator(10), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_10.bmp");
-            Test(new StripePhotoLapseCreator(20), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_20.bmp");
-            Test(new StripePhotoLapseCreator(30), new List<float>() { 1, 1, 1, 1, 1, 1 }, "stripe_pad_30.bmp");
+            Test(stripe, new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe111111.bmp");
+            Test(stripe, new List<float> { 1, 2, 1, 2, 1, 2 }, "stripe121212.bmp");
+            Test(stripe, new List<float> { 0, 1, 0, 1, 0, 1 }, "stripe010101.bmp");
+            Test(stripe, new List<float> { 1, 0, 1, 0, 1, 0 }, "stripe101010.bmp");
+            Test(stripe, new List<float> { 1, 0, 0, 0, 0, 0 }, "stripe100000.bmp");
+            Test(stripe, new List<float> { 0, 0, 0, 0, 0, 1 }, "stripe000001.bmp");
+            Test(stripe, new List<float> { 0, 0, 1, 0, 0, 0 }, "stripe001000.bmp");
+            Test(stripe, new List<float> { 1, 2, 3, 4, 5, 6 }, "stripe123456.bmp");
+            Test(new StripePhotoLapseCreator(10), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_10.bmp");
+            Test(new StripePhotoLapseCreator(20), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_20.bmp");
+            Test(new StripePhotoLapseCreator(30), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_30.bmp");
             Assert.IsTrue(true);
         }
 
@@ -36,10 +36,10 @@ namespace PhotoLapseTests
         public void TestGradient()
         {
             IPhotoLapseCreator grad = new GradientPhotoLapseCreator();
-            Test(grad, new List<float>() { 1, 1, 1, 1, 1 }, "gradient11111.bmp");
-            Test(grad, new List<float>() { 1, 2, 1, 2, 1 }, "gradient12121.bmp");
-            Test(grad, new List<float>() { 1, 0, 0, 0, 0 }, "gradient10000.bmp");
-            Test(grad, new List<float>() { 1, 1, 1, 3, 1 }, "gradient11131.bmp");
+            Test(grad, new List<float> { 1, 1, 1, 1, 1 }, "gradient11111.bmp");
+            Test(grad, new List<float> { 1, 2, 1, 2, 1 }, "gradient12121.bmp");
+            Test(grad, new List<float> { 1, 0, 0, 0, 0 }, "gradient10000.bmp");
+            Test(grad, new List<float> { 1, 1, 1, 3, 1 }, "gradient11131.bmp");
             Assert.IsTrue(true);
         }
 
