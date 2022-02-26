@@ -170,7 +170,7 @@
         </DockPanel>
 
         <ProgressBar Height="20" Grid.Row="2" Grid.ColumnSpan="2" Minimum="0" Maximum="100"
-                     Value="{Binding ProgressPercentage}"/>
+                     Value="{Binding ProgressPercentage, Mode=OneWay}"/>
         <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Message}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <GridSplitter Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Stretch"
