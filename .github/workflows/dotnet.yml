@@ -12,7 +12,7 @@ jobs:
     - name: Build app
       run: msbuild -t:rebuild -property:Configuration=Release
     - name: Run tests
-      uses: microsoft-approved-actions/vstest@master
+      uses: microsoft/vstest@master
       with:
         testAssembly: PhotoLapseTests.dll
         searchFolder: ./PhotoLapseTests/bin/Release
