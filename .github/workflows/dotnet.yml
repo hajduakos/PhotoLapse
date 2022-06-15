@@ -10,4 +10,4 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1
     - name: Build app
-      run: msbuild -t:rebuild -verbosity:diag -property:Configuration=Release
+      run: msbuild -t:rebuild -property:Configuration=Release
