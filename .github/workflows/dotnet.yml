@@ -6,7 +6,8 @@ jobs:
   build-win:
     runs-on: windows-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1
-    - name: Build app for release
+    - name: Build app
       run: msbuild -t:rebuild -verbosity:diag -property:Configuration=Release
