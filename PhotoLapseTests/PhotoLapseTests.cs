@@ -35,12 +35,12 @@ namespace PhotoLapseTests
         }
 
         [TestCaseSource("TestCases")]
-        public void TestSomething(IPhotoLapseCreator creator, List<float> weights, string expected)
+        public void Test(IPhotoLapseCreator creator, List<float> weights, string expected)
         {
-            Assert.IsTrue(Test(creator, weights, expected));
+            Assert.IsTrue(Check(creator, weights, expected));
         }
 
-        public bool Test(IPhotoLapseCreator creator, List<float> weights, string expected)
+        public bool Check(IPhotoLapseCreator creator, List<float> weights, string expected)
         {
             string imagesPath = TestContext.CurrentContext.TestDirectory + "/images/";
             List<string> fullPath = images.Select(i => imagesPath + i).ToList();
