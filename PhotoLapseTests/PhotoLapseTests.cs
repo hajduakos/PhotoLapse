@@ -1,111 +1,48 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using PhotoLapse.Creators;
 using System.Linq;
 using System.Drawing;
 using System.Drawing.Imaging;
+using NUnit.Framework;
 
 namespace PhotoLapseTests
 {
-    [TestClass]
     public class PhotoLapseTests
     {
         private static readonly List<string> images = new List<string> { "ff0000.png", "ffff00.png", "00ff00.png", "00ffff.png", "0000ff.png", "ff00ff.png" };
-        private static readonly string imagesPath = "../../images/";
 
-        [TestMethod]
-        public void TestStripes111111()
+        public static IEnumerable<TestCaseData> TestCases
         {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe111111.bmp"));
+            get
+            {
+                yield return new TestCaseData(new StripePhotoLapseCreator(), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe111111.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(), new List<float> { 1, 2, 1, 2, 1, 2 }, "stripe121212.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(), new List<float> { 0, 1, 0, 1, 0, 1 }, "stripe010101.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(), new List<float> { 1, 0, 1, 0, 1, 0 }, "stripe101010.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(), new List<float> { 1, 0, 0, 0, 0, 0 }, "stripe100000.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(), new List<float> { 0, 0, 0, 0, 0, 1 }, "stripe000001.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(), new List<float> { 0, 0, 1, 0, 0, 0 }, "stripe001000.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(), new List<float> { 1, 2, 3, 4, 5, 6 }, "stripe123456.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(10), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_10.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(20), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_20.bmp");
+                yield return new TestCaseData(new StripePhotoLapseCreator(30), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_30.bmp");
+                yield return new TestCaseData(new GradientPhotoLapseCreator(), new List<float> { 1, 1, 1, 1, 1 }, "gradient11111.bmp");
+                yield return new TestCaseData(new GradientPhotoLapseCreator(), new List<float> { 1, 2, 1, 2, 1 }, "gradient12121.bmp");
+                yield return new TestCaseData(new GradientPhotoLapseCreator(), new List<float> { 1, 0, 0, 0, 0 }, "gradient10000.bmp");
+                yield return new TestCaseData(new GradientPhotoLapseCreator(), new List<float> { 1, 1, 1, 3, 1 }, "gradient11131.bmp");
+            }
         }
 
-        [TestMethod]
-        public void TestStripes121212()
+        [TestCaseSource("TestCases")]
+        public void TestSomething(IPhotoLapseCreator creator, List<float> weights, string expected)
         {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(), new List<float> { 1, 2, 1, 2, 1, 2 }, "stripe121212.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripes010101()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(), new List<float> { 0, 1, 0, 1, 0, 1 }, "stripe010101.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripes101010()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(), new List<float> { 1, 0, 1, 0, 1, 0 }, "stripe101010.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripes100000()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(), new List<float> { 1, 0, 0, 0, 0, 0 }, "stripe100000.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripes000001()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(), new List<float> { 0, 0, 0, 0, 0, 1 }, "stripe000001.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripes001000()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(), new List<float> { 0, 0, 1, 0, 0, 0 }, "stripe001000.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripes123456()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(), new List<float> { 1, 2, 3, 4, 5, 6 }, "stripe123456.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripesPad10()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(10), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_10.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripesPad20()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(20), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_20.bmp"));
-        }
-
-        [TestMethod]
-        public void TestStripesPad30()
-        {
-            Assert.IsTrue(Test(new StripePhotoLapseCreator(30), new List<float> { 1, 1, 1, 1, 1, 1 }, "stripe_pad_30.bmp"));
-        }
-
-        [TestMethod]
-        public void TestGradient11111()
-        {
-            Assert.IsTrue(Test(new GradientPhotoLapseCreator(), new List<float> { 1, 1, 1, 1, 1 }, "gradient11111.bmp"));
-        }
-
-        [TestMethod]
-        public void TestGradient12121()
-        {
-            Assert.IsTrue(Test(new GradientPhotoLapseCreator(), new List<float> { 1, 2, 1, 2, 1 }, "gradient12121.bmp"));
-        }
-
-        [TestMethod]
-        public void TestGradient10000()
-        {
-            Assert.IsTrue(Test(new GradientPhotoLapseCreator(), new List<float> { 1, 0, 0, 0, 0 }, "gradient10000.bmp"));
-        }
-
-        [TestMethod]
-        public void TestGradient11131()
-        {
-            Assert.IsTrue(Test(new GradientPhotoLapseCreator(), new List<float> { 1, 1, 1, 3, 1 }, "gradient11131.bmp"));
+            Assert.IsTrue(Test(creator, weights, expected));
         }
 
         public bool Test(IPhotoLapseCreator creator, List<float> weights, string expected)
         {
+            string imagesPath = TestContext.CurrentContext.TestDirectory + "/images/";
             List<string> fullPath = images.Select(i => imagesPath + i).ToList();
             using (Bitmap resultBmp = creator.Process(fullPath, weights))
             using (Bitmap expectedBmp = new Bitmap(imagesPath + expected))
@@ -114,6 +51,7 @@ namespace PhotoLapseTests
 
         public void Generate(IPhotoLapseCreator creator, List<float> weights, string output)
         {
+            string imagesPath = TestContext.CurrentContext.TestDirectory + "/images/";
             List<string> fullPath = images.Select(i => imagesPath + i).ToList();
             using (Bitmap result = creator.Process(fullPath, weights))
                 result.Save(imagesPath + output);
